@@ -1,7 +1,7 @@
 {
   "name": "large-assignment-prototype",
   "version": "0.1.0",
-  "homepage": "https://egouldmarie.github.io/CS_591/large-assignment-prototype/",
+  "homepage": "https://egouldmarie.github.io/CS_591/",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.2",
