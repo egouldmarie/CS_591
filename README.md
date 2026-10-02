@@ -1,2 +1,3 @@
-# CS 591: Intro to Human Computer Interaction
-Code Repository for Intro to HCI.
+# Large Assignment Prototype
+
+This is a javascript implementation of the prototype of Large Assignment #1.
