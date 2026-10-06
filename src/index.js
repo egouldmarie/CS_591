@@ -55,10 +55,10 @@ const pageTree = {
         img: "blocks.png",
         name: "Blocks",
         innerHTML: `<div class="row">
-                        <div class="button" onclick="goTo(7)"><img src="./src/easy.png"></img>Easy</div>
-                        <div class="button" onclick="goTo(8)"><img src="./src/medium.png"></img>Medium</div>
-                        <div class="button" onclick="goTo(9)"><img src="./src/hard.png"></img>Hard</div>
-                        <div class="button" onclick="goTo(10)"><img src="./src/challenge.png"></img>Challenge</div>
+                        <div class="button" onclick="goTo(7)" style="flex-direction:column;"><img src="./src/blocks_easy.png"></img><div>Easy</div></div>
+                        <div class="button" onclick="goTo(8)" style="flex-direction:column;"><img src="./src/blocks_medium.png"></img><div>Medium</div></div>
+                        <div class="button" onclick="goTo(9)" style="flex-direction:column;"><img src="./src/blocks_hard.png"></img><div>Hard</div></div>
+                        <div class="button" onclick="goTo(10)" style="flex-direction:column;"><img src="./src/blocks_challenge.png"></img><div>Challenge</div></div>
                     </div>`,
         parent: 1,
         children: [7, 8, 9, 10]

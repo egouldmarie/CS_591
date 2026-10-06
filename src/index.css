@@ -82,7 +82,6 @@ html, body {
 
 .button {
   border: 5px dashed white;
-  height: 60px;
   display: flex;
   padding: 8px;
   font-size: 40pt;
@@ -93,8 +92,8 @@ html, body {
 
 .button img {
   height: 100%;
+  max-height: 60px;
   object-fit: contain;
-  padding-right: 10pt;
 }
 
 .button:hover {
