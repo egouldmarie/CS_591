@@ -1,5 +1,6 @@
 const pageTree = {
     0: {
+        id: 0,
         img: "logo.svg",
         name: "Math Buddy",
         innerHTML: `<div class="row">
@@ -10,10 +11,10 @@ const pageTree = {
                         <div class="button" onclick="goTo(3)"><img src="./src/mul.png"></img> Multiplication</div>
                         <div class="button" onclick="goTo(4)"><img src="./src/div.png"></img> Division</div>
                     </div>`,
-        parent: null,
         children: [1]
     },
     1: {
+        id: 1,
         img: "add.png",
         name: "Addition",
         innerHTML: `<div class="row">
@@ -24,6 +25,7 @@ const pageTree = {
         children: [5, 6]
     },
     2: {
+        id: 2,
         img: "sub.png",
         name: "Subtraction",
         innerHTML: `<div>Not yet implemented.</div>`,
@@ -31,6 +33,7 @@ const pageTree = {
         children: []
     },
     3: {
+        id: 3,
         img: "mul.png",
         name: "Multiplication",
         innerHTML: `<div>Not yet implemented.</div>`,
@@ -38,6 +41,7 @@ const pageTree = {
         children: []
     },
     4: {
+        id: 4,
         img: "div.png",
         name: "Division",
         innerHTML: `<div>Not yet implemented.</div>`,
@@ -45,6 +49,7 @@ const pageTree = {
         children: []
     },
     5: {
+        id: 5,
         img: "bnb.png",
         name: "Break N' Build",
         innerHTML: `<div>Not yet implemented.</div>`,
@@ -52,6 +57,7 @@ const pageTree = {
         children: []
     },
     6: {
+        id: 6,
         img: "blocks.png",
         name: "Blocks",
         innerHTML: `<div class="row">
@@ -64,36 +70,47 @@ const pageTree = {
         children: [7, 8, 9, 10]
     },
     7: {
+        id: 7,
         img: "blocks_easy.png",
         name: "Easy",
         help: true,
-        innerHTML: `<div class="easy-equation">
-                        <div class="easy-term"></div>
-                        <img src="./src/add.png"></img>
-                        <div class="easy-term"></div>
-                        <img src="./src/equals.png"></img>
-                        <div class="answer">5</div>
+        innerHTML: `<div class="column">
+                        <div></div>
+                        <div class="easy-equation">
+                            <div class="easy-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="easy-term"></div>
+                            <img src="./src/equals.png"></img>
+                            <div class="answer">5</div>
+                        </div>
+                        <div class="term-options"></div>
                     </div>`,
         parent: 6,
         children: []
     },
     8: {
+        id: 8,
         img: "blocks_medium.png",
         name: "Medium",
         help: true,
-        innerHTML: `<div class="medium-equation">
-                        <div class="medium-term"></div>
-                        <img src="./src/add.png"></img>
-                        <div class="medium-term"></div>
-                        <img src="./src/add.png"></img>
-                        <div class="medium-term"></div>
-                        <img src="./src/equals.png"></img>
-                        <div class="answer">12</div>
+        innerHTML: `<div class="column">
+                        <div></div>
+                        <div class="medium-equation">
+                            <div class="medium-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="medium-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="medium-term"></div>
+                            <img src="./src/equals.png"></img>
+                            <div class="answer">12</div>
+                        </div>
+                        <div class="term-options"></div>
                     </div>`,
         parent: 6,
         children: []
     },
     9: {
+        id: 9,
         img: "blocks_hard.png",
         name: "Hard",
         help: true,
@@ -116,6 +133,7 @@ const pageTree = {
         children: []
     },
     10: {
+        id: 10,
         img: "blocks_challenge.png",
         name: "Challenge",
         help: true,
@@ -134,11 +152,13 @@ const pageTree = {
         children: [11]
     },
     11: {
-        img: "blocks_challenge",
+        id: 11,
+        img: "blocks_challenge.png",
         name: "Challenge Complete!",
         parent: 6,
         children: []
-    }
+    },
+    12: { id: 12, img: "help.png", name: "Help", parent: -1 }
 }
 
 let currentPage, previousPage
@@ -177,7 +197,7 @@ function loadHeader(page) {
     } else {
         headerHelp.style.display = "none"
     }
-    if (page.parent !== null) {
+    if (page.parent !== undefined) {
         headerBack.style.display = "inline"
     } else {
         headerBack.style.display = "none"
@@ -189,6 +209,7 @@ function loadBody(page) {
 }
 
 function loadPage(page) {
+    previousPage = currentPage
     currentPage = page
     app.style.pointerEvents = "none"
     fadeOut()
@@ -213,7 +234,11 @@ function goTo(pageIndex) {
 }
 
 function goBack() {
-    goTo(currentPage.parent)
+    if (currentPage.parent === -1) {
+        goTo(previousPage.id)
+    } else {
+        goTo(currentPage.parent)
+    }
 }
 
 goTo(0)
