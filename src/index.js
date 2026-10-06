@@ -66,6 +66,7 @@ const pageTree = {
     7: {
         img: "blocks_easy.png",
         name: "Easy",
+        help: true,
         innerHTML: `<div class="easy-equation">
                         <div class="easy-term"></div>
                         <img src="./src/add.png"></img>
@@ -79,6 +80,7 @@ const pageTree = {
     8: {
         img: "blocks_medium.png",
         name: "Medium",
+        help: true,
         innerHTML: `<div class="medium-equation">
                         <div class="medium-term"></div>
                         <img src="./src/add.png"></img>
@@ -91,10 +93,43 @@ const pageTree = {
         parent: 6,
         children: []
     },
-    9: { img: "blocks_hard.png", name: "Hard", parent: 6, children: [] },
+    9: {
+        img: "blocks_hard.png",
+        name: "Hard",
+        help: true,
+        innerHTML: `<div class="column">
+                        <div></div>
+                        <div class="hard-equation">
+                            <div class="hard-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="hard-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="hard-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="hard-term"></div>
+                            <img src="./src/equals.png"></img>
+                            <div class="answer">17</div>
+                        </div>
+                        <div class="term-options"></div>
+                    </div>`,
+        parent: 6,
+        children: []
+    },
     10: {
         img: "blocks_challenge.png",
         name: "Challenge",
+        help: true,
+        innerHTML: `<div class="column">
+                        <div class="challenge-header"><div>Question 1 of 10</div><div class="timer">0:15</div></div>
+                        <div class="easy-equation">
+                            <div class="easy-term"></div>
+                            <img src="./src/add.png"></img>
+                            <div class="easy-term"></div>
+                            <img src="./src/equals.png"></img>
+                            <div class="answer">8</div>
+                        </div>
+                        <div class="term-options"></div>
+                    </div>`,
         parent: 6,
         children: [11]
     },
@@ -106,7 +141,7 @@ const pageTree = {
     }
 }
 
-let currentPage
+let currentPage, previousPage
 
 let fadeInEvt = new Event("fadeIn")
 let fadeOutEvt = new Event("fadeOut")
@@ -132,10 +167,16 @@ function fadeOut() {
 }
 let headerImage = document.getElementById("App-header-logo")
 let headerText = document.getElementById("App-header-text")
+let headerHelp = document.getElementById("App-header-help")
 let headerBack = document.getElementById("App-header-back")
 function loadHeader(page) {
     headerImage.src = `./src/${page.img}`
     headerText.innerHTML = page.name
+    if (page.help) {
+        headerHelp.style.display = "inline"
+    } else {
+        headerHelp.style.display = "none"
+    }
     if (page.parent !== null) {
         headerBack.style.display = "inline"
     } else {
