@@ -15,7 +15,16 @@ const pageTree = {
         parent: null,
         children: [1]
     },
-    1: { img: "add.png", name: "Addition", parent: 0, children: [2, 3] },
+    1: {
+        img: "add.png",
+        name: "Addition",
+        innerHTML: `<div class="row">
+                        <div class="button" onclick="goTo(2)"><img src="./src/bnb.png"></img> Break N' Build</div>
+                        <div class="button" onclick="goTo(3)"><img src="./src/blocks.png"></img> Blocks</div>
+                    </div>`,
+        parent: 0,
+        children: [2, 3]
+    },
     2: { img: "bnb.png", name: "Break N' Build", parent: 1, children: [] },
     3: { img: "blocks.png", name: "Blocks", parent: 1, children: [4, 5, 6, 7] },
     4: { img: "blocks_easy.png", name: "Easy", parent: 2, children: [] },
