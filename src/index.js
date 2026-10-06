@@ -2,15 +2,13 @@ const pageTree = {
     0: {
         img: "logo.svg",
         name: "Math Buddy",
-        innerHTML: `<div class="column">
-                        <div class="row">
-                            <div class="button" onclick="goTo(1)"><img src="./src/add.png"></img> Addition</div>
-                            <div class="button" onclick="goTo(-1)"><img src="./src/sub.png"></img> Subtraction</div>
-                        </div>
-                        <div class="row">
-                            <div class="button" onclick="goTo(-1)"><img src="./src/mul.png"></img> Multiplication</div>
-                            <div class="button" onclick="goTo(-1)"><img src="./src/div.png"></img> Division</div>
-                        </div>
+        innerHTML: `<div class="row">
+                        <div class="button" onclick="goTo(1)"><img src="./src/add.png"></img> Addition</div>
+                        <div class="button" onclick="goTo(2)"><img src="./src/sub.png"></img> Subtraction</div>
+                    </div>
+                    <div class="row">
+                        <div class="button" onclick="goTo(3)"><img src="./src/mul.png"></img> Multiplication</div>
+                        <div class="button" onclick="goTo(4)"><img src="./src/div.png"></img> Division</div>
                     </div>`,
         parent: null,
         children: [1]
@@ -19,27 +17,65 @@ const pageTree = {
         img: "add.png",
         name: "Addition",
         innerHTML: `<div class="row">
-                        <div class="button" onclick="goTo(2)"><img src="./src/bnb.png"></img> Break N' Build</div>
-                        <div class="button" onclick="goTo(3)"><img src="./src/blocks.png"></img> Blocks</div>
+                        <div class="button" onclick="goTo(5)"><img src="./src/bnb.png"></img> Break N' Build</div>
+                        <div class="button" onclick="goTo(6)"><img src="./src/blocks.png"></img> Blocks</div>
                     </div>`,
         parent: 0,
-        children: [2, 3]
+        children: [5, 6]
     },
-    2: { img: "bnb.png", name: "Break N' Build", parent: 1, children: [] },
-    3: { img: "blocks.png", name: "Blocks", parent: 1, children: [4, 5, 6, 7] },
-    4: { img: "blocks_easy.png", name: "Easy", parent: 2, children: [] },
-    5: { img: "blocks_medium.png", name: "Medium", parent: 2, children: [] },
-    6: { img: "blocks_hard.png", name: "Hard", parent: 2, children: [] },
-    7: {
+    2: {
+        img: "sub.png",
+        name: "Subtraction",
+        innerHTML: `<div>Not yet implemented.</div>`,
+        parent: 0,
+        children: []
+    },
+    3: {
+        img: "mul.png",
+        name: "Multiplication",
+        innerHTML: `<div>Not yet implemented.</div>`,
+        parent: 0,
+        children: []
+    },
+    4: {
+        img: "div.png",
+        name: "Division",
+        innerHTML: `<div>Not yet implemented.</div>`,
+        parent: 0,
+        children: []
+    },
+    5: {
+        img: "bnb.png",
+        name: "Break N' Build",
+        innerHTML: `<div>Not yet implemented.</div>`,
+        parent: 1,
+        children: []
+    },
+    6: {
+        img: "blocks.png",
+        name: "Blocks",
+        innerHTML: `<div class="row">
+                        <div class="button" onclick="goTo(7)"><img src="./src/easy.png"></img>Easy</div>
+                        <div class="button" onclick="goTo(8)"><img src="./src/medium.png"></img>Medium</div>
+                        <div class="button" onclick="goTo(9)"><img src="./src/hard.png"></img>Hard</div>
+                        <div class="button" onclick="goTo(10)"><img src="./src/challenge.png"></img>Challenge</div>
+                    </div>`,
+        parent: 1,
+        children: [7, 8, 9, 10]
+    },
+    7: { img: "blocks_easy.png", name: "Easy", parent: 6, children: [] },
+    8: { img: "blocks_medium.png", name: "Medium", parent: 6, children: [] },
+    9: { img: "blocks_hard.png", name: "Hard", parent: 6, children: [] },
+    10: {
         img: "blocks_challenge.png",
         name: "Challenge",
-        parent: 2,
-        children: [8]
+        parent: 6,
+        children: [11]
     },
-    8: {
+    11: {
         img: "blocks_challenge",
         name: "Challenge Complete!",
-        parent: 2,
+        parent: 6,
         children: []
     }
 }

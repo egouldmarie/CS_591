@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     height: 100%;
     overflow: hidden;
+    font-size: 30pt;
     user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
@@ -33,12 +34,11 @@ html, body {
 #App-header-logo {
   max-height: 100px;
   object-fit: contain;
-  padding-right: 20px;
 }
 
 #App-header-text {
   display: inline-flex;
-  font-size: 80pt;
+  font-size: 70pt;
 }
 
 #App-header-back {
@@ -58,7 +58,6 @@ html, body {
 }
 
 #App-body {
-  gap: 10px;
   height: calc(100vh - 32px - 130px);
   display: flex;
   align-items: center;
@@ -67,16 +66,18 @@ html, body {
 }
 
 .row {
-  gap: 3em;
+  gap: 20px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .column {
-  gap: 3em;
+  gap: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .button {
