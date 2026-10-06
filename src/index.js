@@ -80,32 +80,29 @@ const pageTree = {
     }
 }
 
+let currentPage
+
+let fadeInEvt = new Event("fadeIn")
+let fadeOutEvt = new Event("fadeOut")
+
 let app = document.getElementById("App")
 function fadeIn() {
-    return new Promise((resolve, reject) => {
-        let opacity = 0
-        let interval = setInterval(() => {
-            opacity += 0.1
-            app.style.opacity = opacity
-            if (opacity >= 1) {
-                clearInterval(interval)
-                resolve(true)
-            }
-        }, 50)
-    })
+    app.style.opacity = Number(app.style.opacity) + 0.1
+    if (app.style.opacity >= 1) {
+        app.style.opacity = 1
+        app.dispatchEvent(fadeInEvt)
+    } else {
+        requestAnimationFrame(fadeIn)
+    }
 }
 function fadeOut() {
-    return new Promise((resolve, reject) => {
-        let opacity = 1
-        let interval = setInterval(() => {
-            opacity -= 0.1
-            app.style.opacity = opacity
-            if (opacity <= 0) {
-                clearInterval(interval)
-                resolve(true)
-            }
-        }, 50)
-    })
+    app.style.opacity = Number(app.style.opacity) - 0.1
+    if (app.style.opacity <= 0) {
+        app.style.opacity = 0
+        app.dispatchEvent(fadeOutEvt)
+    } else {
+        requestAnimationFrame(fadeOut)
+    }
 }
 let headerImage = document.getElementById("App-header-logo")
 let headerText = document.getElementById("App-header-text")
@@ -124,18 +121,21 @@ function loadBody(page) {
     body.innerHTML = page.innerHTML
 }
 
-let currentPage
 function loadPage(page) {
+    currentPage = page
     app.style.pointerEvents = "none"
-    fadeOut().then(() => {
-        currentPage = page
-        loadHeader(page)
-        loadBody(page)
-        fadeIn().then(() => {
-            app.style.pointerEvents = ""
-        })
-    })
+    fadeOut()
 }
+function onFadeOut() {
+    loadHeader(currentPage)
+    loadBody(currentPage)
+    fadeIn()
+}
+function onFadeIn() {
+    app.style.pointerEvents = ""
+}
+app.addEventListener("fadeOut", onFadeOut.bind(this))
+app.addEventListener("fadeIn", onFadeIn.bind(this))
 
 function goTo(pageIndex) {
     if (pageTree[pageIndex] !== undefined) {
