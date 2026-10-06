@@ -105,6 +105,56 @@ html, body {
   background-color: #bbbbbb;
 }
 
+.easy-equation {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  row-gap: 20px;
+  flex-wrap: wrap;
+  font-size: 80pt;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.easy-equation img {
+  height: 100%;
+  max-height: 90px;
+  object-fit: contain;
+}
+
+.easy-term {
+  width: 200px;
+  height: 120px;
+  border: 5px solid #aaaaaa;
+  border-radius: 10px;
+}
+
+.medium-equation {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  row-gap: 20px;
+  flex-wrap: wrap;
+  font-size: 60pt;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.medium-equation img {
+  height: 100%;
+  max-height: 70px;
+  object-fit: contain;
+}
+
+.medium-term {
+  width: 180px;
+  height: 110px;
+  border: 5px solid #aaaaaa;
+  border-radius: 10px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

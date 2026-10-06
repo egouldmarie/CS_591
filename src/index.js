@@ -17,8 +17,8 @@ const pageTree = {
         img: "add.png",
         name: "Addition",
         innerHTML: `<div class="row">
-                        <div class="button" onclick="goTo(5)"><img src="./src/bnb.png"></img> Break N' Build</div>
                         <div class="button" onclick="goTo(6)"><img src="./src/blocks.png"></img> Blocks</div>
+                        <div class="button" onclick="goTo(5)"><img src="./src/bnb.png"></img> Break N' Build</div>
                     </div>`,
         parent: 0,
         children: [5, 6]
@@ -63,8 +63,34 @@ const pageTree = {
         parent: 1,
         children: [7, 8, 9, 10]
     },
-    7: { img: "blocks_easy.png", name: "Easy", parent: 6, children: [] },
-    8: { img: "blocks_medium.png", name: "Medium", parent: 6, children: [] },
+    7: {
+        img: "blocks_easy.png",
+        name: "Easy",
+        innerHTML: `<div class="easy-equation">
+                        <div class="easy-term"></div>
+                        <img src="./src/add.png"></img>
+                        <div class="easy-term"></div>
+                        <img src="./src/equals.png"></img>
+                        <div class="answer">5</div>
+                    </div>`,
+        parent: 6,
+        children: []
+    },
+    8: {
+        img: "blocks_medium.png",
+        name: "Medium",
+        innerHTML: `<div class="medium-equation">
+                        <div class="medium-term"></div>
+                        <img src="./src/add.png"></img>
+                        <div class="medium-term"></div>
+                        <img src="./src/add.png"></img>
+                        <div class="medium-term"></div>
+                        <img src="./src/equals.png"></img>
+                        <div class="answer">12</div>
+                    </div>`,
+        parent: 6,
+        children: []
+    },
     9: { img: "blocks_hard.png", name: "Hard", parent: 6, children: [] },
     10: {
         img: "blocks_challenge.png",
