@@ -4,12 +4,12 @@ const pageTree = {
         name: "Math Buddy",
         innerHTML: `<div class="column">
                         <div class="row">
-                            <div class="button"><img src="./src/add.png"></img> Addition</div>
-                            <div class="button"><img src="./src/sub.png"></img> Subtraction</div>
+                            <div class="button" onclick="goTo(1)"><img src="./src/add.png"></img> Addition</div>
+                            <div class="button" onclick="goTo(-1)"><img src="./src/sub.png"></img> Subtraction</div>
                         </div>
                         <div class="row">
-                            <div class="button"><img src="./src/mul.png"></img> Multiplication</div>
-                            <div class="button"><img src="./src/div.png"></img> Division</div>
+                            <div class="button" onclick="goTo(-1)"><img src="./src/mul.png"></img> Multiplication</div>
+                            <div class="button" onclick="goTo(-1)"><img src="./src/div.png"></img> Division</div>
                         </div>
                     </div>`,
         parent: null,
@@ -37,46 +37,71 @@ const pageTree = {
 
 let app = document.getElementById("App")
 function fadeIn() {
-    let opacity = 0
-    let interval = setInterval(() => {
-        if (opacity >= 1) {
-            clearInterval(interval)
-        }
-        opacity += 0.1
-        app.style.opacity = opacity
-    }, 50)
+    return new Promise((resolve, reject) => {
+        let opacity = 0
+        let interval = setInterval(() => {
+            opacity += 0.1
+            app.style.opacity = opacity
+            if (opacity >= 1) {
+                clearInterval(interval)
+                resolve(true)
+            }
+        }, 50)
+    })
 }
 function fadeOut() {
-    let opacity = 1
-    let interval = setInterval(() => {
-        if (opacity <= 0) {
-            clearInterval(interval)
-        }
-        opacity -= 0.1
-        app.style.opacity = opacity
-    }, 50)
+    return new Promise((resolve, reject) => {
+        let opacity = 1
+        let interval = setInterval(() => {
+            opacity -= 0.1
+            app.style.opacity = opacity
+            if (opacity <= 0) {
+                clearInterval(interval)
+                resolve(true)
+            }
+        }, 50)
+    })
 }
 let headerImage = document.getElementById("App-header-logo")
 let headerText = document.getElementById("App-header-text")
+let headerBack = document.getElementById("App-header-back")
 function loadHeader(page) {
     headerImage.src = `./src/${page.img}`
     headerText.innerHTML = page.name
+    if (page.parent !== null) {
+        headerBack.style.display = "inline"
+    } else {
+        headerBack.style.display = "none"
+    }
 }
 let body = document.getElementById("App-body")
 function loadBody(page) {
     body.innerHTML = page.innerHTML
 }
 
+let currentPage
 function loadPage(page) {
-    if (app.style.opacity > 0) {
-        fadeOut()
-    }
-
-    loadHeader(page)
-    loadBody(page)
-
-    fadeIn()
+    app.style.pointerEvents = "none"
+    fadeOut().then(() => {
+        currentPage = page
+        loadHeader(page)
+        loadBody(page)
+        fadeIn().then(() => {
+            app.style.pointerEvents = ""
+        })
+    })
 }
 
-let currentPage = 0
-loadPage(pageTree[currentPage])
+function goTo(pageIndex) {
+    if (pageTree[pageIndex] !== undefined) {
+        loadPage(pageTree[pageIndex])
+    } else {
+        window.alert("This has not yet been implemented.")
+    }
+}
+
+function goBack() {
+    goTo(currentPage.parent)
+}
+
+goTo(0)
