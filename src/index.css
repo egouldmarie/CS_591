@@ -123,79 +123,68 @@ html, body {
   background-color: #bbbbbb;
 }
 
-.easy-equation {
+.equation {
   width: 100%;
   height: 150px;
   display: flex;
   row-gap: 20px;
   flex-wrap: wrap;
-  font-size: 80pt;
+  font-size: 70pt;
   align-items: center;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.easy-equation img {
+.equation img {
   height: 100%;
-  max-height: 90px;
+  max-height: 80px;
   object-fit: contain;
 }
 
-.easy-term {
-  width: 210px;
-  height: 120px;
-  border: 5px solid #aaaaaa;
-  border-radius: 10px;
-}
-
-.medium-equation {
-  width: 100%;
+.term {
   height: 150px;
-  display: flex;
-  row-gap: 20px;
-  flex-wrap: wrap;
-  font-size: 60pt;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.medium-equation img {
-  height: 100%;
-  max-height: 70px;
-  object-fit: contain;
-}
-
-.medium-term {
-  width: 190px;
-  height: 110px;
   border: 5px solid #aaaaaa;
+  display: flex;
+  min-width: 150px;
+  max-width: 420px;
+  align-items: center;
   border-radius: 10px;
+  justify-content: center;
 }
 
-.hard-equation {
+.term-options {
+  gap: 30px;
+  row-gap: 10px;
   width: 100%;
-  height: 150px;
+  height: 300px;
   display: flex;
-  row-gap: 20px;
   flex-wrap: wrap;
-  font-size: 55pt;
   align-items: center;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
-.hard-equation img {
-  height: 100%;
-  max-height: 65px;
-  object-fit: contain;
-}
-
-.hard-term {
-  width: 170px;
-  height: 100px;
-  border: 5px solid #aaaaaa;
+.block-container {
+  border: 5px dashed white;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  font-size: 5pt;
+  max-width: 400px;
+  max-height: 160px;
   border-radius: 10px;
+  justify-content: start;
+}
+
+.block-container:hover {
+  border-color: #bbbbbb;
+}
+
+.block-container:active {
+  background-color: #bbbbbb;
+}
+
+.block-container img {
+  width: 80px;
 }
 
 .challenge-header {
@@ -207,9 +196,19 @@ html, body {
   justify-content: space-between;
 }
 
-.term-options {
-  width: 100%;
-  height: 300px;
+.timer {
+  gap: 2px;
+  width: 124px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.timer div {
+  width: 55px;
+}
+
+.timer #minutes {
+  text-align: right;
 }
 
 @media (prefers-reduced-motion: no-preference) {
