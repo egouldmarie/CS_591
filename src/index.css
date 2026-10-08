@@ -77,6 +77,7 @@ html, body {
 #App-body {
   height: calc(100vh - 32px - 130px);
   display: flex;
+  opacity: 1;
   align-items: center;
   justify-content: center;
   flex-direction: column;

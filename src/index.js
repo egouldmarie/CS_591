@@ -1,29 +1,39 @@
-let fadeInEvt = new Event("fadeIn")
-let fadeOutEvt = new Event("fadeOut")
-
 let app = document.getElementById("App")
-function fadeIn() {
-    app.style.opacity = Number(app.style.opacity) + 0.1
-    if (app.style.opacity >= 1) {
-        app.style.opacity = 1
-        app.dispatchEvent(fadeInEvt)
-    } else {
-        requestAnimationFrame(fadeIn)
-    }
-}
-function fadeOut() {
-    app.style.opacity = Number(app.style.opacity) - 0.1
-    if (app.style.opacity <= 0) {
-        app.style.opacity = 0
-        app.dispatchEvent(fadeOutEvt)
-    } else {
-        requestAnimationFrame(fadeOut)
-    }
-}
 let headerImage = document.getElementById("App-header-logo")
 let headerText = document.getElementById("App-header-text")
 let headerHelp = document.getElementById("App-header-help")
 let headerBack = document.getElementById("App-header-back")
+let body = document.getElementById("App-body")
+
+let fadeInEvt = new Event("fadeIn")
+let fadeOutEvt = new Event("fadeOut")
+
+function fadeIn(elem) {
+    elem.style.opacity = Number(elem.style.opacity) + 0.1
+    if (elem.style.opacity >= 1) {
+        elem.style.opacity = 1
+        elem.dispatchEvent(fadeInEvt)
+    } else {
+        requestAnimationFrame(() => {
+            fadeIn(elem)
+        })
+    }
+}
+function fadeOut(elem) {
+    if (elem.style.opacity === "") {
+        elem.style.opacity = 1
+    } else {
+        elem.style.opacity = Number(elem.style.opacity) - 0.1
+    }
+    if (elem.style.opacity <= 0) {
+        elem.style.opacity = 0
+        elem.dispatchEvent(fadeOutEvt)
+    } else {
+        requestAnimationFrame(() => {
+            fadeOut(elem)
+        })
+    }
+}
 function loadHeader(page) {
     headerImage.src = `./img/${page.img}`
     headerText.innerHTML = page.name
@@ -38,7 +48,6 @@ function loadHeader(page) {
         headerBack.style.display = "none"
     }
 }
-let body = document.getElementById("App-body")
 function loadBody(page) {
     body.innerHTML = page.innerHTML
 }
@@ -48,7 +57,7 @@ function loadPage(page) {
     previousPage = currentPage
     currentPage = page
     app.style.pointerEvents = "none"
-    fadeOut()
+    fadeOut(app)
 }
 function onFadeOut() {
     loadHeader(currentPage)
@@ -56,7 +65,7 @@ function onFadeOut() {
     if (currentPage.onFadeOut) {
         currentPage.onFadeOut()
     }
-    fadeIn()
+    fadeIn(app)
 }
 function onFadeIn() {
     app.style.pointerEvents = ""
@@ -82,9 +91,6 @@ function goBack() {
         goTo(currentPage.parent)
     }
 }
-
-let equationWrong = new Event("equationWrong")
-let equationCorrect = new Event("equationCorrect")
 
 let sum
 function populateEquation(numTerms, maxTerm) {
@@ -143,8 +149,50 @@ function addBlock(id) {
             else val += terms[i].children[0].children.length
             if (i === terms.length - 1) {
                 console.log(`${val} ${val === sum ? "=" : "≠"} ${sum}`)
+                if (val === sum) {
+                    equationCorrect(terms)
+                } else {
+                    equationWrong(terms)
+                }
             }
         }
+    }
+}
+
+body.addEventListener("fadeOut", () => {
+    loadBody(currentPage)
+    if (currentPage.onFadeOut) currentPage.onFadeOut()
+    fadeIn(body)
+})
+function equationCorrect(terms) {
+    for (let term of terms) {
+        term.animate(
+            [
+                { borderColor: "#bbbbbb" },
+                { borderColor: "#00ff00" },
+                { borderColor: "#bbbbbb" }
+            ],
+            {
+                duration: 1000,
+                iterations: 1
+            }
+        )
+    }
+    setTimeout(() => {
+        fadeOut(body)
+    }, 1000)
+}
+
+function equationWrong(terms) {
+    for (let term of terms) {
+        term.animate(
+            [
+                { borderColor: "#bbbbbb" },
+                { borderColor: "#ff0000" },
+                { borderColor: "#bbbbbb" }
+            ],
+            { duration: 1000, iterations: 1 }
+        )
     }
 }
 
