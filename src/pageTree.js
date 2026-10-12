@@ -79,13 +79,7 @@ const pageTree = {
         },
         innerHTML: `<div class="column">
                         <div></div>
-                        <div class="equation">
-                            <div id="term1" class="term"></div>
-                            <img id="term2" src="./img/add.png"/>
-                            <div class="term"></div>
-                            <img src="./img/equals.png"/>
-                            <div id="answer"></div>
-                        </div>
+                        <div class="equation"></div>
                         <div class="term-options"></div>
                     </div>`,
         parent: 6,
@@ -100,13 +94,7 @@ const pageTree = {
         },
         innerHTML: `<div class="column">
                         <div></div>
-                        <div class="equation">
-                            <div id="term1" class="term"></div>
-                            <img src="./img/add.png"/>
-                            <div id="term2" class="term"></div>
-                            <img src="./img/equals.png"/>
-                            <div id="answer"></div>
-                        </div>
+                        <div class="equation"></div>
                         <div class="term-options"></div>
                     </div>`,
         parent: 6,
@@ -121,15 +109,7 @@ const pageTree = {
         },
         innerHTML: `<div class="column">
                         <div></div>
-                        <div class="equation">
-                            <div id="term1" class="term"></div>
-                            <img src="./img/add.png"/>
-                            <div id="term2" class="term"></div>
-                            <img src="./img/add.png"/>
-                            <div id="term3" class="term"></div>
-                            <img src="./img/equals.png"/>
-                            <div id="answer"></div>
-                        </div>
+                        <div class="equation"></div>
                         <div class="term-options"></div>
                     </div>`,
         parent: 6,
@@ -139,30 +119,28 @@ const pageTree = {
         id: 10,
         img: "blocks_challenge.png",
         name: "Challenge",
-        onFadeOut: () => {
-            populateEquation(2, 5)
+        onLeave: () => {
+            question = 1
         },
+        onFadeOut: () => {
+            if (question < 4) {
+                populateEquation(2, 5)
+            } else if (question < 7) {
+                populateEquation(2, 10)
+            } else if (question <= 10) {
+                populateEquation(3, 10)
+            }
+        },
+        subHeader: `<div id="question-number">Question 1 of 10</div>
+                    <div class="timer">
+                        <div id="minutes">00</div>
+                        :
+                        <div id="seconds">00</div>
+                    </div>`,
         innerHTML: `<div class="column">
-                        <div class="challenge-header">
-                            <div>Question 1 of 10</div>
-                            <div class="timer">
-                                <div id="minutes">00</div>
-                                :
-                                <div id="seconds">00</div>
-                            </div>
-                        </div>
-                        <div class="equation">
-                            <div class="term"></div>
-                            <img src="./img/add.png"/>
-                            <div class="term"></div>
-                            <img src="./img/equals.png"/>
-                            <div id="answer"></div>
-                        </div>
-                        <div class="term-options">
-                            <div class="block-container">
-                                <img src="./img/block1.png"/>
-                            </div>
-                        </div>
+                        <div></div>
+                        <div class="equation"></div>
+                        <div class="term-options"></div>
                     </div>`,
         parent: 6,
         children: [11]
@@ -170,7 +148,21 @@ const pageTree = {
     11: {
         id: 11,
         img: "blocks_challenge.png",
-        name: "Challenge Complete!",
+        name: "Challenge",
+        onFadeOut: () => {
+            let mins = Math.floor(deltaTime / 1000 / 60) % 60
+            let secs = Math.floor(deltaTime / 1000) % 60
+            let challengeTime = document.getElementById("challenge-time")
+            challengeTime.innerHTML = `Time: ${mins > 0 ? `${mins} minute${mins > 1 ? "s" : ""} ` : ""}${secs > 0 ? `${secs} second${secs > 1 ? "s" : ""}` : ""}`
+            if (bestTime === undefined || deltaTime < bestTime) {
+                bestTime = deltaTime
+                let highScore = document.getElementById("high-score")
+                highScore.innerHTML = `New High Score!`
+            }
+        },
+        innerHTML: `<div id="challenge-complete">Challenge Complete</div>
+                    <div id="challenge-time"></div>
+                    <div id="high-score"></div>`,
         parent: 6,
         children: []
     },

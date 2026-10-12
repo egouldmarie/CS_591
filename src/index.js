@@ -3,6 +3,7 @@ let headerImage = document.getElementById("App-header-logo")
 let headerText = document.getElementById("App-header-text")
 let headerHelp = document.getElementById("App-header-help")
 let headerBack = document.getElementById("App-header-back")
+let subHeader = document.getElementById("App-sub-header")
 let body = document.getElementById("App-body")
 
 let fadeInEvt = new Event("fadeIn")
@@ -48,12 +49,20 @@ function loadHeader(page) {
         headerBack.style.display = "none"
     }
 }
+function loadSubHeader(page) {
+    if (page.subHeader) {
+        subHeader.innerHTML = page.subHeader
+    } else {
+        subHeader.innerHTML = ""
+    }
+}
 function loadBody(page) {
     body.innerHTML = page.innerHTML
 }
 
 let currentPage, previousPage
 function loadPage(page) {
+    if (previousPage?.onLeave) previousPage.onLeave()
     previousPage = currentPage
     currentPage = page
     app.style.pointerEvents = "none"
@@ -61,6 +70,7 @@ function loadPage(page) {
 }
 function onFadeOut() {
     loadHeader(currentPage)
+    loadSubHeader(currentPage)
     loadBody(currentPage)
     if (currentPage.onFadeOut) {
         currentPage.onFadeOut()
@@ -80,7 +90,7 @@ function goTo(pageIndex) {
     if (pageTree[pageIndex] !== undefined) {
         loadPage(pageTree[pageIndex])
     } else {
-        window.alert("This has not yet been implemented.")
+        window.alert("Attempted to load a page that does not exist.")
     }
 }
 
@@ -110,6 +120,16 @@ function populateEquation(numTerms, maxTerm) {
         )
     }
 
+    let eqnHTML = ""
+    for (let t = 0; t < numTerms; t++) {
+        eqnHTML += `<div class="term"></div>`
+        if (t < numTerms - 1) eqnHTML += `<img src="./img/add.png"/>`
+        else
+            eqnHTML += `<img src="./img/equals.png"/><div id="answer">${sum}</div>`
+    }
+    let equation = document.getElementsByClassName("equation")[0]
+    equation.innerHTML = eqnHTML
+
     let optsHTML = ""
     for (let t = 0; t < opts.length; t++) {
         optsHTML += `<div id="opt${t}" class="block-container" onclick="addBlock('opt${t}')"${maxTerm > 5 ? 'style="max-width: 250px; max-height: 100px;"' : ""}>`
@@ -120,9 +140,6 @@ function populateEquation(numTerms, maxTerm) {
     }
     let termOptions = document.getElementsByClassName("term-options")[0]
     termOptions.innerHTML = optsHTML
-
-    let answer = document.getElementById("answer")
-    answer.innerHTML = sum
 }
 
 function randInt(min, max) {
@@ -159,28 +176,41 @@ function addBlock(id) {
     }
 }
 
+let question = 1
 body.addEventListener("fadeOut", () => {
     loadBody(currentPage)
     if (currentPage.onFadeOut) currentPage.onFadeOut()
     fadeIn(body)
 })
 function equationCorrect(terms) {
+    let promises = []
     for (let term of terms) {
-        term.animate(
-            [
-                { borderColor: "#bbbbbb" },
-                { borderColor: "#00ff00" },
-                { borderColor: "#bbbbbb" }
-            ],
-            {
-                duration: 1000,
-                iterations: 1
-            }
+        promises.push(
+            term.animate(
+                [
+                    { borderColor: "#bbbbbb" },
+                    { borderColor: "#00ff00" },
+                    { borderColor: "#bbbbbb" }
+                ],
+                {
+                    duration: 1000,
+                    iterations: 1
+                }
+            ).finished
         )
     }
-    setTimeout(() => {
-        fadeOut(body)
-    }, 1000)
+    Promise.all(promises).then(() => {
+        if (currentPage.id === 10 && question === 2) {
+            goTo(11)
+        } else {
+            if (currentPage.id === 10) {
+                question++
+                document.getElementById("question-number").innerHTML =
+                    `Question ${question} of 10`
+            }
+            fadeOut(body)
+        }
+    })
 }
 
 function equationWrong(terms) {
@@ -200,9 +230,10 @@ let timerSeconds
 let timerMinutes
 app.addEventListener("fadeIn", startTimer)
 
-let startTime, deltaTime
+let startTime, deltaTime, bestTime
 function startTimer() {
     if (currentPage.id === 10) {
+        question = 1
         timerSeconds = document.getElementById("seconds")
         timerMinutes = document.getElementById("minutes")
         app.addEventListener("fadeOut", stopTimer)

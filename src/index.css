@@ -74,6 +74,15 @@ html, body {
   background-color: #bbbbbb;
 }
 
+#App-sub-header {
+  width: calc(100% - 370px);
+  display: flex;
+  flex-wrap: nowrap;
+  padding-left: 125px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 #App-body {
   height: calc(100vh - 32px - 130px);
   display: flex;
@@ -81,6 +90,19 @@ html, body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+#challenge-complete {
+  font-size: 50pt;
+}
+
+#challenge-time {
+  font-size: 40pt;
+}
+
+#high-score {
+  color: #e68e00;
+  font-size: 30pt;
 }
 
 .row {
@@ -186,15 +208,6 @@ html, body {
 
 .block-container img {
   width: 80px;
-}
-
-.challenge-header {
-  width: calc(100% - 370px);
-  display: flex;
-  flex-wrap: nowrap;
-  padding-left: 125px;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .timer {
