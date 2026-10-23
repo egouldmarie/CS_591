@@ -13,6 +13,7 @@ function fadeIn(elem) {
     elem.style.opacity = Number(elem.style.opacity) + 0.1
     if (elem.style.opacity >= 1) {
         elem.style.opacity = 1
+        elem.style.pointerEvents = ""
         elem.dispatchEvent(fadeInEvt)
     } else {
         requestAnimationFrame(() => {
@@ -21,11 +22,11 @@ function fadeIn(elem) {
     }
 }
 function fadeOut(elem) {
-    if (elem.style.opacity === "") {
+    if (elem.style.opacity === "" || elem.style.opacity === 1) {
         elem.style.opacity = 1
-    } else {
-        elem.style.opacity = Number(elem.style.opacity) - 0.1
+        elem.style.pointerEvents = "none"
     }
+    elem.style.opacity = Number(elem.style.opacity) - 0.1
     if (elem.style.opacity <= 0) {
         elem.style.opacity = 0
         elem.dispatchEvent(fadeOutEvt)
@@ -78,7 +79,6 @@ function onFadeOut() {
     fadeIn(app)
 }
 function onFadeIn() {
-    app.style.pointerEvents = ""
     if (currentPage.onFadeIn) {
         currentPage.onFadeIn()
     }
@@ -104,26 +104,44 @@ function goBack() {
 
 let sum
 function populateEquation(numTerms, maxTerm) {
+    let lastSum = sum
     let opts = []
-    sum = 0
-    for (let t = 0; t < numTerms; t++) {
-        let opt = randInt(1, maxTerm)
-        opts.push(opt)
-        sum += opt
+    while (sum === lastSum) {
+        sum = 0
+        opts = []
+        for (let t = 0; t < numTerms; t++) {
+            let opt = randInt(1, maxTerm)
+            opts.push(opt)
+            sum += opt
+        }
     }
 
-    for (let t = 0; t < numTerms + 1; t++) {
-        opts.splice(
-            randInt(0, opts.length - 1),
-            0,
-            randInt(1, Math.min(sum - 1, maxTerm))
-        )
+    let trms = []
+    if (sum > 5) {
+        for (let t = 1; t < Math.min(sum, maxTerm + 1); t++) {
+            if (!opts.includes(t)) {
+                trms.push(t)
+            }
+        }
+    } else if (sum === 3) {
+        trms = [1, 1, 1, 2]
+    } else if (sum === 4) {
+        trms = [1, 1, 2, 3]
+    } else if (sum === 5) {
+        trms = [1, 1, 2, 3, 3, 4]
     }
+
+    for (let i = 0; i < numTerms + 1; i++) {
+        opts.push(trms.splice(randInt(0, trms.length - 1), 1)[0])
+    }
+
+    shuffle(opts)
 
     let eqnHTML = ""
     for (let t = 0; t < numTerms; t++) {
         eqnHTML += `<div class="term"></div>`
-        if (t < numTerms - 1) eqnHTML += `<img src="./img/add.png"/>`
+        if (t < numTerms - 1)
+            eqnHTML += `<img class="plus" src="./img/add.png"/>`
         else
             eqnHTML += `<img src="./img/equals.png"/><div id="answer">${sum}</div>`
     }
@@ -144,6 +162,17 @@ function populateEquation(numTerms, maxTerm) {
 
 function randInt(min, max) {
     return min + Math.round(Math.random() * (max - min))
+}
+
+function shuffle(array) {
+    for (let i = array.length; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1))
+        let tmp = array[i]
+        array[i] = array[j]
+        array[j] = tmp
+    }
+
+    return array
 }
 
 function addBlock(id) {
@@ -183,24 +212,28 @@ body.addEventListener("fadeOut", () => {
     fadeIn(body)
 })
 function equationCorrect(terms) {
+    let equation = document.getElementsByClassName("equation")[0]
+    let pluses = document.getElementsByClassName("plus")
+    body.style.pointerEvents = "none"
     let promises = []
-    for (let term of terms) {
+    for (let plus of pluses) {
         promises.push(
-            term.animate(
-                [
-                    { borderColor: "#bbbbbb" },
-                    { borderColor: "#00ff00" },
-                    { borderColor: "#bbbbbb" }
-                ],
+            plus.animate(
                 {
-                    duration: 1000,
+                    opacity: [1, 0, 0, 0],
+                    height: ["150px", "150px", "0px", "0px"],
+                    offset: [0, 0.05, 0.2, 1]
+                },
+                {
+                    fill: "forwards",
+                    duration: 500,
                     iterations: 1
                 }
             ).finished
         )
     }
     Promise.all(promises).then(() => {
-        if (currentPage.id === 10 && question === 2) {
+        if (currentPage.id === 10 && question === 10) {
             goTo(11)
         } else {
             if (currentPage.id === 10) {
