@@ -252,7 +252,7 @@ function equationCorrect(terms) {
     }
     Promise.all(promises).then(() => {
         fadeOut(body)
-        if (question === 2) {
+        if (question === 10) {
             goTo(currentPage.children[0])
         } else {
             if (currentPage.id >= 7 && currentPage.id <= 10) {
