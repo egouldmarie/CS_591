@@ -74,46 +74,58 @@ const pageTree = {
         id: 7,
         img: "blocks_easy.png",
         name: "Easy",
+        onLeave: () => {
+            question = 1
+        },
         onFadeOut: () => {
             populateEquation(2, 5)
         },
+        subHeader: `<div id="question-number">Question 1 of 10</div>`,
         innerHTML: `<div class="column">
                         <div></div>
                         <div class="equation"></div>
                         <div class="term-options"></div>
                     </div>`,
         parent: 6,
-        children: []
+        children: [13]
     },
     8: {
         id: 8,
         img: "blocks_medium.png",
         name: "Medium",
+        onLeave: () => {
+            question = 1
+        },
         onFadeOut: () => {
             populateEquation(2, 10)
         },
+        subHeader: `<div id="question-number">Question 1 of 10</div>`,
         innerHTML: `<div class="column">
                         <div></div>
                         <div class="equation"></div>
                         <div class="term-options"></div>
                     </div>`,
         parent: 6,
-        children: []
+        children: [14]
     },
     9: {
         id: 9,
         img: "blocks_hard.png",
         name: "Hard",
+        onLeave: () => {
+            question = 1
+        },
         onFadeOut: () => {
             populateEquation(3, 10)
         },
+        subHeader: `<div id="question-number">Question 1 of 10</div>`,
         innerHTML: `<div class="column">
                         <div></div>
                         <div class="equation"></div>
                         <div class="term-options"></div>
                     </div>`,
         parent: 6,
-        children: []
+        children: [15]
     },
     10: {
         id: 10,
@@ -166,5 +178,32 @@ const pageTree = {
         parent: 6,
         children: []
     },
-    12: { id: 12, img: "help.png", name: "Help", parent: -1 }
+    12: { id: 12, img: "help.png", name: "Help", parent: -1 },
+    13: {
+        id: 13,
+        img: "blocks_easy.png",
+        name: "Easy",
+        innerHTML: `<div id="challenge-complete">10 / 10  Complete!</div>
+                    <div class="button" onclick="goTo(7)"><div>Play Again</div></div>
+                    <div class="button" onclick="goTo(6)"><div>All Done</div></div>`,
+        parent: 6
+    },
+    14: {
+        id: 14,
+        img: "blocks_medium.png",
+        name: "Medium",
+        innerHTML: `<div id="challenge-complete">10 / 10  Complete!</div>
+                    <div class="button" onclick="goTo(8)"><div>Play Again</div></div>
+                    <div class="button" onclick="goTo(6)"><div>All Done</div></div>`,
+        parent: 6
+    },
+    15: {
+        id: 15,
+        img: "blocks_hard.png",
+        name: "Hard",
+        innerHTML: `<div id="challenge-complete">10 / 10  Complete!</div>
+                    <div class="button" onclick="goTo(9)"><div>Play Again</div></div>
+                    <div class="button" onclick="goTo(6)"><div>All Done</div></div>`,
+        parent: 6
+    }
 }

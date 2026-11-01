@@ -150,9 +150,18 @@ function populateEquation(numTerms, maxTerm) {
 
     let optsHTML = ""
     for (let t = 0; t < opts.length; t++) {
-        optsHTML += `<div id="opt${t}" class="block-container" onclick="addBlock('opt${t}')"${maxTerm > 5 ? 'style="max-width: 250px; max-height: 100px;"' : ""}>`
-        for (let i = 0; i < opts[t]; i++) {
-            optsHTML += `<img src="./img/block${randInt(1, 5)}.png" style="rotate:${90 * randInt(0, 3)}deg;${maxTerm > 5 ? "width: 50px" : ""}"/>`
+        optsHTML += `<div id="opt${t}" class="block-container" onclick="addBlock('opt${t}')">`
+        let tens = Math.floor(opts[t] / 10)
+        let fives = Math.floor((opts[t] - tens * 10) / 5)
+        let ones = opts[t] - tens * 10 - fives * 5
+        for (let i = 0; i < tens; i++) {
+            optsHTML += `<div class="ten-container"><div class="ten-number">10</div><img class="ten-block" src="./img/ten_block.png" style="rotate:${90 * randInt(0, 3)}deg;"/></div>`
+        }
+        for (let i = 0; i < fives; i++) {
+            optsHTML += `<div class="five-container"><div class="five-number">5</div><img class="five-block" src="./img/five_block.png" style="rotate:${90 * randInt(0, 3)}deg;"/></div>`
+        }
+        for (let i = 0; i < ones; i++) {
+            optsHTML += `<img class="one-block" src="./img/block${randInt(1, 5)}.png" style="rotate:${90 * randInt(0, 3)}deg;"/>`
         }
         optsHTML += "</div>"
     }
@@ -165,7 +174,7 @@ function randInt(min, max) {
 }
 
 function shuffle(array) {
-    for (let i = array.length; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1))
         let tmp = array[i]
         array[i] = array[j]
@@ -192,9 +201,18 @@ function addBlock(id) {
         let val = 0
         for (let i = 0; i < terms.length; i++) {
             if (terms[i].children.length === 0) break
-            else val += terms[i].children[0].children.length
+            else
+                val +=
+                    terms[i].children[0].getElementsByClassName("ten-block")
+                        .length *
+                        10 +
+                    terms[i].children[0].getElementsByClassName("five-block")
+                        .length *
+                        5 +
+                    terms[i].children[0].getElementsByClassName("one-block")
+                        .length
             if (i === terms.length - 1) {
-                console.log(`${val} ${val === sum ? "=" : "≠"} ${sum}`)
+                //console.log(`${val} ${val === sum ? "=" : "≠"} ${sum}`)
                 if (val === sum) {
                     equationCorrect(terms)
                 } else {
@@ -233,15 +251,15 @@ function equationCorrect(terms) {
         )
     }
     Promise.all(promises).then(() => {
-        if (currentPage.id === 10 && question === 10) {
-            goTo(11)
+        fadeOut(body)
+        if (question === 2) {
+            goTo(currentPage.children[0])
         } else {
-            if (currentPage.id === 10) {
+            if (currentPage.id >= 7 && currentPage.id <= 10) {
                 question++
                 document.getElementById("question-number").innerHTML =
                     `Question ${question} of 10`
             }
-            fadeOut(body)
         }
     })
 }
